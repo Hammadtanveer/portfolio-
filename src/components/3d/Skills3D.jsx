@@ -137,47 +137,56 @@ export default function Skills3D() {
   const nodes = useSkillNodes();
 
   return (
-    <div className="w-full h-[420px] sm:h-[500px]" aria-hidden="true">
-      <Canvas
-        camera={{ position: [0, 0, 7], fov: 42 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={theme === "dark" ? 0.4 : 0.7} />
-        <pointLight position={[5, 5, 5]} intensity={0.6} />
+    <div className="relative w-full flex flex-col items-center" aria-hidden="true">
+      {/* 3D Canvas */}
+      <div className="w-full h-[350px] sm:h-[450px]">
+        <Canvas
+          camera={{ position: [0, 0, 7], fov: 42 }}
+          dpr={[1, 1.5]}
+          gl={{ antialias: true, alpha: true }}
+          style={{ background: "transparent" }}
+        >
+          <ambientLight intensity={theme === "dark" ? 0.4 : 0.7} />
+          <pointLight position={[5, 5, 5]} intensity={0.6} />
 
-        <Suspense fallback={null}>
-          <RotatingGroup>
-            {nodes.map((n, i) => (
-              <group key={i}>
-                <SkillNode position={n.position} color={n.color} />
-                <SkillLabel position={n.position} name={n.name} color={n.color} />
-              </group>
-            ))}
-            <GroupLines nodes={nodes} />
-          </RotatingGroup>
-          <CenterGlow theme={theme} />
-        </Suspense>
+          <Suspense fallback={null}>
+            <RotatingGroup>
+              {nodes.map((n, i) => (
+                <group key={i}>
+                  <SkillNode position={n.position} color={n.color} />
+                  <SkillLabel position={n.position} name={n.name} color={n.color} />
+                </group>
+              ))}
+              <GroupLines nodes={nodes} />
+            </RotatingGroup>
+            <CenterGlow theme={theme} />
+          </Suspense>
 
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.4}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={(3 * Math.PI) / 4}
-        />
-      </Canvas>
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={0.4}
+            minPolarAngle={Math.PI / 4}
+            maxPolarAngle={(3 * Math.PI) / 4}
+          />
+        </Canvas>
+      </div>
 
-      {/* Colour legend */}
-      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-3 px-4">
-        {Object.entries(GROUP_COLORS).map(([group, color]) => (
-          <span key={group} className="inline-flex items-center gap-1.5 text-[11px] text-mist font-mono">
-            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-            {group}
-          </span>
-        ))}
+      {/* Info & Colour Legend panel */}
+      <div className="mt-4 flex flex-col items-center gap-3 w-full text-center">
+        <p className="text-xs font-mono text-cyan/90 tracking-wider">
+          ✦ Click &amp; drag to explore the tech constellation
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 px-6 max-w-3xl">
+          {Object.entries(GROUP_COLORS).map(([group, color]) => (
+            <span key={group} className="inline-flex items-center gap-1.5 text-[11px] text-mist font-mono">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
+              {group}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

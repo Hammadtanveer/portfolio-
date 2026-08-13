@@ -80,16 +80,13 @@ export default function Skills() {
           >
             <Suspense
               fallback={
-                <div className="h-[420px] sm:h-[500px] flex items-center justify-center text-mist font-mono text-sm">
+                <div className="h-[350px] sm:h-[450px] flex items-center justify-center text-mist font-mono text-sm">
                   Loading 3D constellation…
                 </div>
               }
             >
               <Skills3D />
             </Suspense>
-            <p className="text-center text-mist text-xs font-mono mt-2">
-              Drag to rotate · Color = category
-            </p>
           </motion.div>
         )}
       </div>
