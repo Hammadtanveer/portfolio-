@@ -43,6 +43,13 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen bg-ink text-fg">
