@@ -147,7 +147,7 @@ export default function Nav() {
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
           <a
-            href="/Hammad_Tanveer_Resume.pdf"
+            href="/Hammad_Tanveer_Android_and_Applied_AI_Resume.pdf"
             target="_blank"
             rel="noreferrer"
             className="font-mono text-xs text-accent underline underline-offset-4 hover:opacity-80 transition-opacity py-2"
@@ -195,7 +195,7 @@ export default function Nav() {
                 </span>
               </div>
               <a
-                href="/Hammad_Tanveer_Resume.pdf"
+                href="/Hammad_Tanveer_Android_and_Applied_AI_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="text-accent font-mono text-xs py-3 underline underline-offset-4"
