@@ -1,18 +1,16 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Billboard, Text } from "@react-three/drei";
 import { Suspense, useRef, useMemo } from "react";
-import * as THREE from "three";
 import { useTheme } from "../../context/ThemeContext";
 import { skills } from "../../data/content";
 
-/* ── Group colour map (consistent across themes) ── */
+/* ── Editorial warm-palette group colours ── */
 const GROUP_COLORS = {
-  "Languages":                "#A78BFA",
-  "AI / GenAI":               "#22D3EE",
-  "Backend":                  "#FB923C",
-  "Mobile App Development":   "#34D399",
-  "Frontend":                 "#F472B6",
-  "Cloud & Tools":            "#FBBF24",
+  "Android & Multiplatform":  "#C6A162",
+  "Applied AI & ML":          "#69A886",
+  "Backend":                  "#D98A5F",
+  "Frontend":                 "#D8C39E",
+  "Testing & Tools":          "#8B9BB4",
 };
 const fallbackColor = "#9CA3AF";
 
@@ -123,9 +121,9 @@ function CenterGlow({ theme }) {
     <mesh>
       <sphereGeometry args={[0.35, 16, 16]} />
       <meshBasicMaterial
-        color={theme === "dark" ? "#8B5CF6" : "#7C3AED"}
+        color={theme === "dark" ? "#C6A162" : "#8C6830"}
         transparent
-        opacity={0.12}
+        opacity={0.1}
       />
     </mesh>
   );

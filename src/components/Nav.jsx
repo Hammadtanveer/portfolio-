@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
 const LINKS = [
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "Works" },
   { id: "experience", label: "Experience" },
-  { id: "services", label: "Hire Me" },
+  { id: "services", label: "Services" },
   { id: "contact", label: "Contact" },
 ];
 
-/* ── Animated Sun / Moon icons ── */
 function SunIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="5" />
       <line x1="12" y1="1" x2="12" y2="3" />
       <line x1="12" y1="21" x2="12" y2="23" />
@@ -30,8 +29,23 @@ function SunIcon() {
 
 function MoonIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
+function MenuIcon({ open }) {
+  return open ? (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  ) : (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
     </svg>
   );
 }
@@ -47,10 +61,10 @@ function ThemeToggle({ className = "" }) {
   return (
     <motion.button
       onClick={toggle}
-      className={`relative w-10 h-10 rounded-full border border-line flex items-center justify-center text-mist hover:text-cyan transition-colors overflow-hidden ${className}`}
+      className={`relative w-10 h-10 rounded-full border border-line flex items-center justify-center text-mist hover:text-accent hover:border-accent/50 transition-colors overflow-hidden ${className}`}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      whileTap={{ scale: 0.85 }}
+      whileTap={{ scale: 0.88 }}
     >
       <AnimatePresence mode="wait" initial={false}>
         {theme === "dark" ? (
@@ -60,7 +74,7 @@ function ThemeToggle({ className = "" }) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.35, type: "spring", stiffness: 260, damping: 20 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 260, damping: 20 }}
             className="absolute flex items-center justify-center"
           >
             <MoonIcon />
@@ -72,7 +86,7 @@ function ThemeToggle({ className = "" }) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.35, type: "spring", stiffness: 260, damping: 20 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 260, damping: 20 }}
             className="absolute flex items-center justify-center"
           >
             <SunIcon />
@@ -83,30 +97,21 @@ function ThemeToggle({ className = "" }) {
   );
 }
 
-/* ── Scroll progress bar ── */
 function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(h > 0 ? window.scrollY / h : 0);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 280, damping: 35, restDelta: 0.001 });
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-line/30">
+    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-line/40">
       <motion.div
-        className="h-full bg-gradient-to-r from-violet to-cyan"
-        style={{ width: `${progress * 100}%` }}
+        className="h-full bg-accent origin-left"
+        style={{ scaleX }}
       />
     </div>
   );
 }
 
-/* ── Navigation ── */
 export default function Nav() {
-  const { theme, toggle } = useTheme();
+  const { theme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -121,86 +126,88 @@ export default function Nav() {
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
           ? "glass border-b border-line shadow-sm"
-          : "bg-transparent"
+          : "bg-transparent border-b border-line/40"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#top" className="font-display font-semibold text-lg tracking-tight">
-          hammad<span className="text-violet">.</span>dev
+        <a href="#top" className="font-display italic text-2xl tracking-tight text-fg hover:text-accent transition-colors">
+          Hammad Tanveer
         </a>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-8 font-mono text-sm text-mist">
+        <ul className="hidden md:flex items-center gap-8 text-xs tracking-wide text-mist">
           {LINKS.map((l) => (
             <li key={l.id}>
-              <a href={`#${l.id}`} className="hover:text-cyan transition-colors">
+              <a href={`#${l.id}`} className="hover:text-fg transition-colors py-2">
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Desktop actions */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
           <a
             href="/Hammad_Tanveer_Resume.pdf"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 border border-line rounded-full px-4 py-2 text-sm font-mono hover:border-violet hover:text-violet transition-colors"
+            className="font-mono text-xs text-accent underline underline-offset-4 hover:opacity-80 transition-opacity py-2"
           >
-            Resume ↗
+            Curriculum Vitae ↗
           </a>
         </div>
 
-        {/* Mobile hamburger */}
         <button
-          className="md:hidden text-2xl leading-none"
+          className="md:hidden w-11 h-11 flex items-center justify-center text-fg"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
         >
-          {open ? "✕" : "☰"}
+          <MenuIcon open={open} />
         </button>
       </nav>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {open && (
           <motion.div
+            id="mobile-nav"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="md:hidden glass border-t border-line overflow-hidden"
           >
-            <div className="px-6 py-4 flex flex-col gap-4 font-mono text-sm">
+            <div className="px-6 py-4 flex flex-col gap-1 text-sm">
               {LINKS.map((l) => (
                 <a
                   key={l.id}
                   href={`#${l.id}`}
                   onClick={() => setOpen(false)}
-                  className="text-mist hover:text-cyan transition-colors"
+                  className="text-mist hover:text-fg transition-colors py-2.5"
                 >
                   {l.label}
                 </a>
               ))}
-              <div className="flex items-center gap-3 pt-2 border-t border-line">
+              <div className="flex items-center gap-3 pt-3 mt-2 border-t border-line">
                 <ThemeToggle />
-                <span className="text-mist text-xs">
-                  {theme === "dark" ? "Dark mode" : "Light mode"}
+                <span className="text-mist text-xs font-mono">
+                  {theme === "dark" ? "Charcoal Dark" : "Paper Light"}
                 </span>
               </div>
-              <a href="/Hammad_Tanveer_Resume.pdf" target="_blank" rel="noreferrer" className="text-violet">
-                Resume ↗
+              <a
+                href="/Hammad_Tanveer_Resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="text-accent font-mono text-xs py-3 underline underline-offset-4"
+              >
+                Curriculum Vitae ↗
               </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Scroll progress indicator */}
-      {scrolled && <ScrollProgress />}
+      <ScrollProgress />
     </header>
   );
 }

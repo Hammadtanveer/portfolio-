@@ -2,57 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Theme tokens (space-separated RGB for Tailwind opacity support) ─── */
+/* ─── Atelier Charcoal & Burnished Bronze Tokens ─── */
 @layer base {
   :root {
-    /* Dark theme (default) */
-    --color-ink: 8 8 12;
-    --color-panel: 15 15 22;
-    --color-panel2: 21 21 31;
-    --color-line: 35 35 47;
-    --color-text: 255 255 255;
-    --color-mist: 156 163 175;
-    --color-violet: 139 92 246;
-    --color-cyan: 6 182 212;
-    --color-ember: 249 115 22;
+    /* Dark theme (default): Warm Obsidian & Burnished Bronze */
+    --color-ink: 13 13 12;          /* #0D0D0C */
+    --color-panel: 21 21 19;        /* #151513 */
+    --color-panel2: 28 28 25;       /* #1C1C19 */
+    --color-line: 38 37 34;         /* #262522 */
+    --color-text: 244 241 234;      /* #F4F1EA */
+    --color-mist: 153 148 136;      /* #999488 */
+    --color-accent: 198 161 98;     /* #C6A162 */
+    --color-on-accent: 13 13 12;    /* #0D0D0C */
+    --color-violet: 198 161 98;     /* #C6A162 (Bronze) */
+    --color-cyan: 216 195 158;      /* #D8C39E (Warm Champagne) */
+    --color-ember: 194 120 74;      /* #C2784A (Muted Copper) */
 
     /* Surfaces & effects */
-    --color-glass: 15 15 22;
-    --glass-opacity: 0.72;
-    --shadow-intensity: 0.45;
-    --grid-glow-violet: 0.15;
-    --grid-glow-cyan: 0.12;
-
-    /* Scrollbar */
-    --scrollbar-thumb: #23232F;
-    --scrollbar-track: #08080C;
-
-    /* Selection */
-    --selection-bg: 139 92 246;
-    --selection-text: 255 255 255;
-  }
-
-  html.light {
-    --color-ink: 255 255 255;
-    --color-panel: 248 250 252;
-    --color-panel2: 241 245 249;
-    --color-line: 226 232 240;
-    --color-text: 15 23 42;
-    --color-mist: 100 116 139;
-    --color-violet: 124 58 237;
-    --color-cyan: 8 145 178;
-    --color-ember: 234 88 12;
-
-    --color-glass: 255 255 255;
+    --color-glass: 21 21 19;
     --glass-opacity: 0.82;
-    --shadow-intensity: 0.08;
+    --shadow-intensity: 0.45;
     --grid-glow-violet: 0.06;
     --grid-glow-cyan: 0.04;
 
-    --scrollbar-thumb: #CBD5E1;
-    --scrollbar-track: #F8FAFC;
+    /* Scrollbar */
+    --scrollbar-thumb: #2A2823;
+    --scrollbar-track: #0D0D0C;
 
-    --selection-bg: 124 58 237;
+    /* Selection */
+    --selection-bg: 198 161 98;
+    --selection-text: 13 13 12;
+  }
+
+  html.light {
+    /* Light theme: Warm Parchment (#ECE7DC) & Deep Antique Brass */
+    --color-ink: 236 231 220;       /* #ECE7DC */
+    --color-panel: 248 246 241;     /* #F8F6F1 */
+    --color-panel2: 229 223 211;    /* #E5DFD3 */
+    --color-line: 212 205 192;      /* #D4CDC0 */
+    --color-text: 24 23 21;         /* #181715 */
+    --color-mist: 88 83 75;         /* #58534B */
+    --color-accent: 125 91 38;      /* #7D5B26 */
+    --color-on-accent: 255 255 255; /* #FFFFFF */
+    --color-violet: 125 91 38;      /* #7D5B26 */
+    --color-cyan: 102 74 30;        /* #664A1E */
+    --color-ember: 160 82 40;       /* #A05228 */
+
+    --color-glass: 236 231 220;
+    --glass-opacity: 0.9;
+    --shadow-intensity: 0.06;
+    --grid-glow-violet: 0.04;
+    --grid-glow-cyan: 0.02;
+
+    --scrollbar-thumb: #C8C0B0;
+    --scrollbar-track: #ECE7DC;
+
+    --selection-bg: 125 91 38;
     --selection-text: 255 255 255;
   }
 
@@ -64,7 +69,7 @@
     @apply font-body antialiased;
     background-color: rgb(var(--color-ink));
     color: rgb(var(--color-text));
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                 color 0.3s ease;
   }
 
@@ -82,69 +87,63 @@
 /* ─── Reusable utilities ─── */
 @layer utilities {
   .eyebrow {
-    @apply font-mono text-xs tracking-[0.25em] uppercase text-cyan/80;
+    @apply font-mono text-xs tracking-[0.2em] uppercase;
+    color: rgb(var(--color-accent));
   }
 
   .grad-text {
-    background: linear-gradient(
-      135deg,
-      rgb(var(--color-violet)),
-      rgb(var(--color-cyan))
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    @apply font-serif italic font-normal;
+    color: rgb(var(--color-accent));
   }
 
   .card {
-    @apply bg-panel border border-line rounded-2xl;
-    transition: background-color 0.35s ease,
-                border-color 0.35s ease,
-                box-shadow 0.35s ease;
+    @apply bg-panel border rounded-xl;
+    border-width: 1.5px;
+    border-color: rgb(var(--color-accent) / 0.42);
+    transition: background-color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: rgb(var(--color-accent) / 0.72);
   }
 
   .glow-border {
     box-shadow:
-      0 0 0 1px rgb(var(--color-violet) / 0.15),
-      0 0 40px -20px rgb(var(--color-violet) / 0.5);
+      0 0 0 1px rgb(var(--color-accent) / 0.22),
+      0 12px 32px -18px rgb(var(--color-accent) / 0.35);
   }
 
   .glass {
     background: rgb(var(--color-glass) / var(--glass-opacity));
-    backdrop-filter: blur(20px) saturate(1.8);
-    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
   }
 }
 
-/* ─── Grid-glow background (uses theme-aware opacity tokens) ─── */
+/* ─── Subtle warm studio ambient wash ─── */
 .bg-grid-glow {
   background-image:
-    radial-gradient(circle at 20% 20%, rgb(var(--color-violet) / var(--grid-glow-violet)), transparent 40%),
-    radial-gradient(circle at 80% 60%, rgb(var(--color-cyan) / var(--grid-glow-cyan)), transparent 45%);
+    radial-gradient(circle at 18% 20%, rgb(var(--color-accent) / var(--grid-glow-violet)), transparent 45%),
+    radial-gradient(circle at 82% 65%, rgb(var(--color-cyan) / var(--grid-glow-cyan)), transparent 48%);
 }
 
-/* ─── Light-mode soft dot-grid body texture ─── */
-html.light body {
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,0.65), rgba(248,250,252,0.65)),
-    url('/grid.svg');
-  background-attachment: fixed;
-  background-repeat: repeat;
-  background-size: 40px 40px;
-  background-position: 0 0;
-}
-
-/* ─── Light-mode softer glow-border ─── */
+/* ─── Light-mode subtle paper lift ─── */
 html.light .glow-border {
   box-shadow:
-    0 0 0 1px rgb(var(--color-violet) / 0.10),
-    0 0 30px -15px rgb(var(--color-violet) / 0.22);
+    0 0 0 1px rgb(var(--color-accent) / 0.16),
+    0 10px 26px -14px rgb(var(--color-accent) / 0.22);
 }
 
-/* ─── Light-mode card subtle shadow lift ─── */
 html.light .card {
-  box-shadow: 0 1px 3px rgb(var(--color-text) / 0.04),
-              0 4px 16px rgb(var(--color-text) / 0.03);
+  border-color: rgb(var(--color-accent) / 0.42);
+  box-shadow: 0 1px 2px rgb(var(--color-text) / 0.03),
+              0 4px 14px rgb(var(--color-text) / 0.02);
+}
+
+html.light .card:hover {
+  border-color: rgb(var(--color-accent) / 0.78);
 }
 
 /* ─── Reduced-motion ─── */

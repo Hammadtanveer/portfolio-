@@ -1,98 +1,96 @@
-import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { socials } from "../data/content";
 
-const HeroScene3D = lazy(() => import("./3d/HeroScene3D"));
+const EASE = [0.22, 1, 0.36, 1];
 
-/* ── Loading spinner for 3D canvas ── */
-function CanvasLoader() {
-  return (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="w-10 h-10 rounded-full border-2 border-violet border-t-transparent animate-spin" />
-    </div>
-  );
-}
+const LEDGER = [
+  ["CURRENTLY", "Freelance Android / KMP Dev"],
+  ["EDUCATION", "B.Tech CSE · AKTU (2022–2026)"],
+  ["OPEN SOURCE", "AnkiDroid · 3 Merged PRs"],
+  ["PUBLISHED", "Campus Connect · Google Play"],
+  ["RESEARCH", "IJERT ICTEM 2.0 (May 2026)"],
+];
 
 export default function Hero() {
   return (
-    <section id="top" className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <section id="top" className="relative min-h-[88vh] flex items-center pt-24 pb-16 overflow-hidden">
       <div className="absolute inset-0 bg-grid-glow pointer-events-none" />
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <div className="inline-flex items-center gap-2 border border-line rounded-full px-3 py-1 mb-6">
-            <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-            <span className="font-mono text-xs text-cyan tracking-wide">Open to work</span>
-          </div>
+      <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center w-full relative z-10">
+        <div className="lg:col-span-7">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE }}
+            className="font-mono text-xs tracking-[0.2em] uppercase text-accent mb-5"
+          >
+            Software Engineer · New Delhi
+          </motion.p>
 
-          <p className="eyebrow mb-3">Software Developer · GenAI Engineer</p>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] mb-6">
-            Hammad Tanveer builds
-            <br />
-            <span className="grad-text">AI-driven products</span>
-            <br />
-            that ship.
-          </h1>
-          <p className="text-mist text-base sm:text-lg max-w-md mb-8 leading-relaxed">
-            B.Tech CS grad shipping full-stack, Android, and GenAI applications —
-            from an app live on the Play Store to LLM tools built on LangChain and RAG.
-            Currently interning as a Software Developer, looking for full-time roles.
-          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.08 }}
+            className="font-display text-5xl sm:text-6xl lg:text-[68px] font-medium tracking-tight leading-[1.02] mb-6"
+          >
+            Architecting{" "}
+            <span className="italic font-normal text-accent">resilient</span>{" "}
+            Android &amp; applied AI systems.
+          </motion.h1>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.16 }}
+            className="text-mist text-base sm:text-lg max-w-xl mb-9 leading-relaxed"
+          >
+            2026 B.Tech CSE graduate shipping Kotlin Multiplatform builds, Google Play
+            releases, and streaming LLM interfaces with restraint and precision.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.24 }}
+            className="flex flex-wrap items-center gap-3.5"
+          >
             <a
               href={socials.whatsapp}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-violet hover:bg-violet/90 transition-colors text-white font-medium rounded-full px-6 py-3 text-sm glow-border"
+              className="inline-flex items-center justify-center min-h-[44px] bg-accent hover:opacity-90 active:scale-[0.98] transition-all duration-200 text-on-accent font-medium rounded-full px-6 py-2.5 text-sm"
             >
-              Hire Me →
+              Start a conversation
             </a>
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 border border-line hover:border-cyan hover:text-cyan transition-colors rounded-full px-6 py-3 text-sm font-mono"
+              className="inline-flex items-center justify-center min-h-[44px] border border-line hover:border-accent/60 active:scale-[0.98] transition-all duration-200 rounded-full px-6 py-2.5 text-sm font-mono text-fg"
             >
-              View Projects
+              Selected Works ↓
             </a>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
-        {/* ── 3D Crystal Scene (lazy-loaded) ── */}
+        {/* ── 2D Executive Summary Ledger ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
-          className="relative h-[380px] sm:h-[460px] md:h-[520px]"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
+          className="lg:col-span-5 card p-6 sm:p-7"
         >
-          <Suspense fallback={<CanvasLoader />}>
-            <HeroScene3D />
-          </Suspense>
-
-          {/* Floating tech badges */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            className="absolute top-6 right-4 sm:right-10 glass card px-3 py-2 font-mono text-xs text-cyan shadow-lg z-10"
-          >
-            {"</> GenAI"}
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-10 left-2 sm:left-6 glass card px-3 py-2 font-mono text-xs text-violet shadow-lg z-10"
-          >
-            Android · Kotlin
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-            className="absolute top-1/2 left-0 glass card px-3 py-2 font-mono text-xs text-ember shadow-lg z-10"
-          >
-            Full-Stack
-          </motion.div>
+          <div className="divide-y divide-line">
+            {LEDGER.map(([label, value], i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.45, ease: EASE, delay: 0.24 + i * 0.05 }}
+                className="py-3.5 first:pt-0 last:pb-0 flex justify-between items-baseline gap-4"
+              >
+                <span className="font-mono text-xs text-accent shrink-0">{label}</span>
+                <span className="text-xs sm:text-sm text-fg text-right">{value}</span>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

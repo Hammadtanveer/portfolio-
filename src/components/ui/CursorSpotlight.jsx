@@ -35,11 +35,11 @@ export default function CursorSpotlight() {
     };
   }, []);
 
-  // Theme-aware spotlight colour via CSS variable
+  // Theme-aware subtle warm bronze spotlight
   const spotlightColor =
     theme === "dark"
-      ? "rgba(139, 92, 246, 0.07)"
-      : "rgba(124, 58, 237, 0.035)";
+      ? "rgba(198, 161, 98, 0.055)"
+      : "rgba(140, 104, 48, 0.03)";
 
   return (
     <div

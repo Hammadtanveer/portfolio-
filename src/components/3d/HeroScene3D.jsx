@@ -4,10 +4,10 @@ import { Suspense, useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useTheme } from "../../context/ThemeContext";
 
-/* ── Theme color maps ── */
+/* ── Theme color maps (Charcoal & Burnished Bronze / Warm Paper & Antique Brass) ── */
 const PALETTE = {
-  dark:  { primary: "#8B5CF6", accent: "#06B6D4", ambient: 0.4, point: 2.0 },
-  light: { primary: "#7C3AED", accent: "#0891B2", ambient: 0.65, point: 1.4 },
+  dark:  { primary: "#C6A162", accent: "#E6D5B8", ambient: 0.45, point: 1.8 },
+  light: { primary: "#8C6830", accent: "#B8935A", ambient: 0.7,  point: 1.3 },
 };
 
 /* ── Crystal Core (distorted icosahedron) ── */

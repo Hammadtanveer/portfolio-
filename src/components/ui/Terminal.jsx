@@ -15,13 +15,13 @@ const COMMANDS = {
     "  clear      — Clear terminal",
   ],
   about: () => [
-    "┌─ Hammad Tanveer ─────────────────────────┐",
-    "│ B.Tech CS · AKTU · First Division         │",
-    "│ Software Dev Intern @ Nestor Vision        │",
-    "│ Open Source: 3 PRs merged into AnkiDroid   │",
-    "│ Research: First-author paper @ ICTEM 2.0   │",
-    "│ Interests: GenAI, Android, Full-Stack      │",
-    "└────────────────────────────────────────────┘",
+    "┌─ Hammad Tanveer ─────────────────────────────┐",
+    "│ B.Tech CSE (2022–2026) · AKTU · First Div.   │",
+    "│ Freelance Android / KMP Developer (Present)  │",
+    "│ Ex-Software Engineer Intern @ Nestor Vision  │",
+    "│ Open Source: 3 PRs merged into AnkiDroid     │",
+    "│ Research: First-author paper @ IJERT ICTEM   │",
+    "└──────────────────────────────────────────────┘",
   ],
   skills: () =>
     skills.flatMap((g) => [
@@ -133,19 +133,20 @@ export default function Terminal() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && run(input)}
           placeholder="Type a command…"
-          className="flex-1 bg-transparent text-sm font-mono outline-none placeholder:text-mist/40"
+          aria-label="Terminal command input"
+          className="flex-1 bg-transparent text-sm font-mono outline-none placeholder:text-mist/70"
           autoComplete="off"
           spellCheck={false}
         />
       </div>
 
       {/* ── Quick chips ── */}
-      <div className="flex flex-wrap gap-1.5 px-4 py-2.5 border-t border-line">
+      <div className="flex flex-wrap gap-2 px-4 py-2.5 border-t border-line">
         {CHIPS.map((c) => (
           <button
             key={c}
             onClick={() => { run(c); inputRef.current?.focus(); }}
-            className="text-[11px] font-mono px-2.5 py-1 rounded-md border border-line text-mist hover:text-cyan hover:border-cyan/50 transition-colors"
+            className="text-xs font-mono px-3 min-h-[36px] rounded-md border border-line text-mist hover:text-accent hover:border-accent/50 transition-colors"
           >
             {c}
           </button>
